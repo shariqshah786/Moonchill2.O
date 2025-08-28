@@ -1,6 +1,6 @@
 const PlanList = ({ priceType, setPriceType }) => (
   <div className="flex justify-center gap-6 bg-gray-800 rounded-lg p-1 w-max mx-auto">
-    {["monthly", "yearly"].map((type) => (
+    {["month", "yearly"].map((type) => (
       <button
         key={type}
         className={`px-6 py-2 rounded-lg font-semibold transition ${
