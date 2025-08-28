@@ -19,9 +19,9 @@ const Mainheader = () => {
           </Link>
         </div>
 
-        <button className="bg-blue-600 hover:bg-blue-700  px-6 rounded-lg font-semibold h-10 text-sm md:text-base">
+        <button className=" text-white px-6 rounded-lg font-semibold h-10 text-sm md:text-base">
           <Link href="/mainplans" className="text-white">
-            Buy Plans
+            <div className="text-white font-bold items-center ">BUY NOW</div>
           </Link>
         </button>
       </header>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 const ProductionHouse = () => {
   const productionHouseList = [
     {
@@ -6,7 +7,7 @@ const ProductionHouse = () => {
     },
     {
       id: 2,
-      image: "/ott_logos/Hotstar_Logo_NEW colour.png",
+      image: "/ott_logos/JIOHOTSTAR_LOGO (1).jpg",
     },
     {
       id: 3,
@@ -14,28 +15,25 @@ const ProductionHouse = () => {
     },
     {
       id: 4,
-      image: "/ott_logos/Zee5 premium logo final-01.png",
+      image: "/ott_logos/zee5logo.jpeg",
     },
     {
       id: 5,
-      image: "/nextflixM.png",
+      image: "/ott_logos/Shemaroo_NEW_Logo.png",
     },
   ];
   return (
-    <div className="flex gap-2 md:gap-5 p-2 px-5 md:px-16 ">
+    <div className="flex gap-2 mt-5 justify-center md:gap-5 p-2 px-5 md:px-16 ">
       {productionHouseList.map((item) => (
-        <div
-          key={item.id}
-          className="border-[2px] border-gray-600
-            rounded-lg hover:scale-110 transition-all duration-300
-            ease-in-out cursor-pointer relative shadow-xl 
-            shadow-gray-800"
-        >
-          <img
-            src={item.image}
-            alt={item.id}
-            className="w-35 object-contain z-[1] opacity-100"
-          ></img>
+        <div key={item.id} className="flex  gap-2">
+          <Link href="/mainplans">
+            <img
+              src={item.image}
+              alt={item.id}
+              className="w-18 md:w-30 pacity-100 object-contain rounded bg-gray-50 border hover:scale-110 transition-all duration-300
+            ease-in-out"
+            ></img>
+          </Link>
         </div>
       ))}
     </div>
@@ -43,3 +41,7 @@ const ProductionHouse = () => {
 };
 
 export default ProductionHouse;
+// border-[2px] border-gray-600
+//                 rounded-lg hover:scale-110 transition-all duration-300
+//                 ease-in-out cursor-pointer relative shadow-xl
+//                 shadow-gray-800
