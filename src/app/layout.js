@@ -15,8 +15,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "MoonChill",
-  description: "One stop for all your Entertainment.",
+  title: "Moonchill | Best OTT Plans",
+  description:
+    "Subscribe to Moonchill OTT aggregator for the best streaming experience.",
+  openGraph: {
+    title: "Moonchill OTT Plans",
+    description: "Get unlimited OTT access at the best price.",
+    url: "https://moonchill.in",
+    siteName: "Moonchill",
+  },
+  icons: {
+    icon: "/favicon2.png",
+    shortcut: "/favicon2.png",
+    apple: "/favicon2.png",
+  },
 };
 
 export default function RootLayout({ children }) {

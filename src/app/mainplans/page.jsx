@@ -38,12 +38,7 @@ const OttLogos = () => {
     { name: "rajtv", logo: "/ott_logos/rajtv-01.png" },
     { name: "chanajor", logo: "/ott_logos/channa_jor.png" },
     { name: "nammaflix", logo: "/ott_logos/NammaFlix.png" },
-    { name: "AHA", logo: "/ott_logos/aha.png" },
-    { name: "AAO", logo: "/ott_logos/aao.jpeg" },
-    { name: "AAO", logo: "/ott_logos/fancode.png" },
-    { name: "Chaupal", logo: "/ott_logos/chaupal.png" },
-    { name: "stage", logo: "/ott_logos/stage.png" },
-    { name: "Distrotv", logo: "/ott_logos/distroTV.png" },
+    
   ];
   const plans = [
     {
