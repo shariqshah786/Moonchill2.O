@@ -1,160 +1,208 @@
 "use client";
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 
-import { useState, useRef, useEffect } from "react";
-import { useParams } from "next/navigation";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from "firebase/auth";
-import { auth } from "../../firebase"; // adjust path as needed
+const plans = [
+  { name: "Moonchill PowerPlay", monthPrice: 199, yearlyPrice: 1990 },
+  { name: "Premium", monthPrice: 399, yearlyPrice: 3990 },
+  { name: "Premium Pro", monthPrice: 599, yearlyPrice: 5990 },
+];
 
-export default function SubscribePage() {
+export default function PlanPage() {
   const params = useParams();
-  const plan = params.plan;
+  const router = useRouter();
 
-  const [step, setStep] = useState("phone"); // 'phone' or 'otp'
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [confirmationResult, setConfirmationResult] = useState(null);
-  const [error, setError] = useState("");
-  const [recaptchaReady, setRecaptchaReady] = useState(false);
+  const [billingCycle, setBillingCycle] = useState("monthly");
+  const [coupon, setCoupon] = useState("");
+  const [discountedAmount, setDiscountedAmount] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const recaptchaVerifier = useRef(null);
+  const plan = plans.find(
+    (p) => p.name.toLowerCase().replace(/\s+/g, "-") === params.plan
+  );
+  if (!plan) return <div>❌ Plan not found</div>;
 
-  // useEffect(() => {
-  //   if (!recaptchaVerifier.current) {
-  //     recaptchaVerifier.current = new RecaptchaVerifier(
-  //       "recaptcha-container",
-  //       { size: "invisible" },
-  //       auth
-  //     );
-  //     recaptchaVerifier.current
-  //       .render()
-  //       .then(() => setRecaptchaReady(true))
-  //       .catch((err) => {
-  //         console.error("reCAPTCHA render failed", err);
-  //         setError("Failed to load reCAPTCHA, please refresh");
-  //       });
-  //   }
-  // }, []);
+  // 1️⃣ Function to validate coupon
+  const applyCoupon = async () => {
+    if (!coupon) return alert("Enter a coupon code");
 
-  const handleContinue = async () => {
-    setError("");
-    if (!/^\d{10}$/.test(phone)) {
-      setError("Please enter a valid 10-digit phone number");
-      return;
-    }
-    if (!recaptchaReady || !recaptchaVerifier.current) {
-      setError("Recaptcha not loaded. Please wait a moment and try again.");
-      return;
-    }
     try {
-      const formattedPhone = "+91" + phone; // Adjust country code
-      const result = await signInWithPhoneNumber(
-        auth,
-        formattedPhone,
-        recaptchaVerifier.current
-      );
-      setConfirmationResult(result);
-      setStep("otp");
-    } catch (error) {
-      setError(error.message || "Failed to send OTP. Please try again.");
+      const res = await fetch("/api/coupons/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ coupon, plan: plan.name }),
+      });
+      const data = await res.json();
+
+      if (!data.valid) return alert("Invalid coupon");
+
+      const price =
+        billingCycle === "monthly" ? plan.monthPrice : plan.yearlyPrice;
+
+      setDiscountedAmount(price - (price * data.discount) / 100);
+      alert(`Coupon applied! You get ${data.discount}% off.`);
+    } catch (err) {
+      console.error("Coupon error:", err);
+      alert("Something went wrong");
     }
   };
 
-  const handleVerifyOtp = async () => {
-    setError("");
-    if (!otp || otp.length !== 6) {
-      setError("Please enter a 6-digit OTP");
-      return;
-    }
+  const handleSubscribe = async () => {
+    if (!name || !phone) return alert("Enter name & phone number");
+
+    setLoading(true);
+
     try {
-      await confirmationResult.confirm(otp);
-      alert("OTP verified! Subscription started.");
-      // Redirect or further steps here
-    } catch {
-      setError("OTP verification failed. Please try again.");
+      const price =
+        billingCycle === "monthly" ? plan.monthPrice : plan.yearlyPrice;
+
+      const finalAmount = discountedAmount ?? price;
+
+      // 2️⃣ Store user in MongoDB
+      await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          plan: plan.name,
+          billingCycle,
+          coupon: coupon || null,
+          amount: finalAmount,
+        }),
+      });
+
+      // 3️⃣ Create Razorpay order
+      const orderRes = await fetch("/api/payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: finalAmount * 100 }), // in paise
+      });
+
+      const orderData = await orderRes.json();
+      if (orderData.error) {
+        alert("Failed to create payment order: " + orderData.error);
+        setLoading(false);
+        return;
+      }
+
+      // 4️⃣ Load Razorpay SDK
+      const res = await loadRazorpay();
+      if (!res) return alert("Razorpay SDK failed to load");
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Moonchill",
+        description: `${plan.name} Subscription`,
+        order_id: orderData.id,
+        handler: async function (response) {
+          // 1️⃣ Update DB with success
+          await fetch("/api/payment/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              phone,
+              plan: plan.name,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+            }),
+          });
+
+          // 2️⃣ Redirect to thank-you page
+          router.push("/thank-you");
+        },
+        prefill: { name, contact: phone },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (err) {
+      console.error("Subscribe error:", err);
+      alert("Something went wrong!");
+    } finally {
+      setLoading(false);
     }
   };
+
+  const loadRazorpay = () =>
+    new Promise((resolve) => {
+      if (document.getElementById("razorpay-script")) return resolve(true);
+      const script = document.createElement("script");
+      script.id = "razorpay-script";
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#161848] to-[#1b204e]">
-      <div className="bg-[#110e2e] rounded-xl p-8 w-full max-w-md shadow-2xl text-center border border-[#382eb1]">
-        <div className="rounded-t-xl bg-gradient-to-r from-[#8760ff] to-[#48d2ff] py-4 mb-6 text-white text-xl font-bold">
-          Subscribe {plan ? plan.replace(/-/g, " ") : "Power"} (30D)
+    <>
+      <div className="bg-gray-800 min-h-screen flex items-center justify-center p-4">
+        <div className="p-6 max-w-lg  bg-white rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold mb-2">{plan.name}</h1>
+          <p className="text-gray-600 mb-4">
+            {billingCycle === "monthly"
+              ? `₹${plan.monthPrice} / month`
+              : `₹${plan.yearlyPrice} / year`}
+          </p>
+
+          <input
+            type="text"
+            placeholder="Name"
+            className="w-full border p-2 rounded mb-3"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Phone"
+            className="w-full border p-2 rounded mb-3"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Coupon code"
+            className="w-full border p-2 rounded mb-3"
+            value={coupon}
+            onChange={(e) => setCoupon(e.target.value)}
+          />
+          <button
+            onClick={applyCoupon}
+            className="mb-3 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          >
+            Apply Coupon
+          </button>
+
+          <select
+            className="w-full border p-2 rounded mb-3"
+            value={billingCycle}
+            onChange={(e) => setBillingCycle(e.target.value)}
+          >
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+
+          <p className="mb-3 font-medium">
+            Total: ₹
+            {discountedAmount ??
+              (billingCycle === "monthly" ? plan.monthPrice : plan.yearlyPrice)}
+          </p>
+
+          <button
+            onClick={handleSubscribe}
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          >
+            {loading ? "Processing..." : "Subscribe"}
+          </button>
         </div>
-
-        {step === "phone" && (
-          <>
-            <p className="text-white text-lg font-medium mb-4">
-              Help us with a few details to start your entertainment journey.
-            </p>
-            <p className="text-gray-400 mb-6">
-              Your number will act as the primary method for login.
-            </p>
-            <input
-              type="text"
-              value={phone}
-              onChange={(e) =>
-                setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
-              }
-              placeholder="9999999999"
-              className="w-full px-4 py-2 rounded bg-transparent text-white border border-[#382eb1] mb-6 focus:outline-none focus:border-[#8760ff] placeholder:text-gray-400 text-lg"
-              maxLength={10}
-            />
-            {error && <p className="text-red-500 mb-2">{error}</p>}
-            <button
-              onClick={handleContinue}
-              className="w-full py-3 rounded bg-gradient-to-r from-[#8760ff] to-[#48d2ff] text-white font-semibold text-lg tracking-wide hover:opacity-90 transition"
-            >
-              CONTINUE
-            </button>
-          </>
-        )}
-
-        {step === "otp" && (
-          <>
-            <p className="text-white text-lg font-medium mb-4">Verify OTP</p>
-            <p className="text-gray-400 mb-6 text-left">
-              Mobile Number
-              <br />
-              <span className="line-through block bg-[#19194b] border border-[#382eb1] rounded text-gray-400 px-2 py-1 text-lg mt-1">
-                {phone}
-              </span>
-              <button
-                onClick={() => {
-                  setStep("phone");
-                  setOtp("");
-                  setError("");
-                }}
-                className="text-indigo-500 underline text-sm mt-1"
-              >
-                Change Mobile Number
-              </button>
-            </p>
-            <input
-              type="text"
-              value={otp}
-              onChange={(e) =>
-                setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
-              }
-              maxLength={6}
-              placeholder="Enter OTP"
-              className="w-full px-4 py-2 rounded bg-transparent text-white border border-[#382eb1] mb-6 focus:outline-none focus:border-[#8760ff] placeholder:text-gray-400 text-lg tracking-widest"
-            />
-            {error && <p className="text-red-500 mb-2">{error}</p>}
-            <button
-              onClick={handleVerifyOtp}
-              className="w-full py-3 rounded bg-gradient-to-r from-[#8760ff] to-[#48d2ff] text-white font-semibold text-lg tracking-wide hover:opacity-90 transition"
-            >
-              VERIFY OTP
-            </button>
-          </>
-        )}
-
-        <div id="recaptcha-container"></div>
       </div>
-    </div>
+    </>
   );
 }

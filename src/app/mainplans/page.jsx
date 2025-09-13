@@ -3,10 +3,11 @@ import Footer from "components/Footer";
 import React, { useState } from "react";
 import Sidebar from "components/Sidebar";
 import MobileNav from "components/MobileNav";
-import Mainheader from "components/Mainheader";
+import Mainheader from "components/header/Mainheader";
 import Link from "next/link";
-import PlanList from "components/PlanList";
-import PlanPricingBox from "components/PlanPricingBox";
+import PlanList from "components/plans/PlanList";
+import PlanPricingBox from "components/plans/PlanPricingBox";
+
 const OttLogos = () => {
   const [selectedGenre, setSelectedGenre] = useState("home");
   const [priceType, setPriceType] = useState("month");
@@ -130,6 +131,7 @@ const OttLogos = () => {
   ];
   return (
     <div className="min-h-screen bg-gray-900">
+      
       {/* Desktop Sidebar */}
       <div className="hidden md:block fixed">
         <Sidebar
@@ -137,7 +139,7 @@ const OttLogos = () => {
           setSelectedGenre={setSelectedGenre}
         />
       </div>
-      <div className="flex-1 overflow-y-auto pl-10">
+      <div className="flex-1 overflow-y-auto pl-0 md:pl-10">
         <Mainheader />
         <div className=" bg-gray-900 flex flex-col items-center px-4 py-10">
           <h2 className="text-2xl md:text-4xl font-bold mb-8 text-gray-300">

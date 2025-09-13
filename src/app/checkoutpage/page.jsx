@@ -1,16 +1,17 @@
-import { InteractiveCheckout } from "@/components/ui/interactive-checkout";
+"use client";
+import PlansModal from "components/RazorpayPayment/RazorpayButton";
 import React from "react";
 
-const CheckoutPage = () => {
+const page = () => {
   return (
     <>
-      <div className="min-h-screen bg-gray-900">
-        <div className="flex flex-col items-center justify-center py-10">
-          <InteractiveCheckout />
-        </div>
+      <div className="flex flex-col items-center mt-20">
+        {/* <RazorpayButton /> */}
+
+        <PlansModal />
       </div>
     </>
   );
 };
 
-export default CheckoutPage;
+export default page;

@@ -10,7 +10,6 @@ const Slider = () => {
     const fetchMovies = async () => {
       try {
         await getTrendingVideos.then((response) => {
-          // console.log(response.data.results);
           setMovies(response.data.results);
         });
       } catch (error) {
@@ -55,22 +54,3 @@ const Slider = () => {
 };
 
 export default Slider;
-
-// <div>
-//   {movies.length > 0 && (
-//     <ul>
-//       {movies.map((item) => (
-//         <li key={item.id}>
-//           {
-//             <img
-//               className="min-w-full h-[310px] object-cover "
-//               src={IMAGE_BASE_URL + item.backdrop_path}
-//               alt={item.name}
-//             />
-//           }
-//         </li>
-//       ))}
-//     </ul>
-//   )}
-//   {movies.length === 0 && <p>Fetching Data....</p>}
-// </div>

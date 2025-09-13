@@ -1,11 +1,9 @@
-import React from 'react'
+"use client";
+import Login from "@/login";
+import React from "react";
 
 const otppage = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default otppage
+export default otppage;

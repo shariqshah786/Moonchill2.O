@@ -144,7 +144,7 @@ const HeroSlider = () => {
               <div className="flex items-center gap-4">
                 <Link
                   href="/mainplans"
-                  className="bg-white hover:bg-blue-700 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-medium flex items-center gap-2 transition-colors duration-200 shadow-lg hover:shadow-xl text-sm md:text-base"
+                  className="bg-white hover:bg-blue-700 hover:text-white  px-6 md:px-8 py-2 md:py-3 rounded-lg font-medium flex items-center gap-2 transition-colors duration-200 shadow-lg hover:shadow-xl text-sm md:text-base"
                 >
                   <HiPlay className="w-4 h-4 md:w-5 md:h-5" />
                   Watch now
@@ -180,7 +180,7 @@ const HeroSlider = () => {
       )}
 
       {/* Dots Indicator */}
-      {heroSlides.length > 1 && (
+      {/* {heroSlides.length > 1 && (
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
           {heroSlides.map((_, index) => (
             <button
@@ -194,7 +194,7 @@ const HeroSlider = () => {
             />
           ))}
         </div>
-      )}
+      )} */}
 
       {/* Thumbnail Previews - Hidden on mobile */}
       <div className="absolute bottom-4 right-4 flex gap-2 hidden md:flex">

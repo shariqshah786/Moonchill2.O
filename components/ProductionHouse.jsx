@@ -17,10 +17,7 @@ const ProductionHouse = () => {
       id: 4,
       image: "/ott_logos/zee5logo.jpeg",
     },
-    {
-      id: 5,
-      image: "/ott_logos/Shemaroo_NEW_Logo.png",
-    },
+   
   ];
   return (
     <div className="flex gap-2 mt-5 justify-center md:gap-5 p-2 px-5 md:px-16 ">

@@ -7,7 +7,7 @@ import MobileNav from "components/MobileNav";
 import Link from "next/link";
 import { useState } from "react";
 import ProductionHouse from "components/ProductionHouse";
-import Mainheader from "components/Mainheader";
+import Mainheader from "components/header/Mainheader";
 
 const Home = () => {
   const [selectedGenre, setSelectedGenre] = useState("home");

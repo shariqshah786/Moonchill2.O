@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 
 const PlanPricingBox = ({
@@ -16,27 +17,24 @@ const PlanPricingBox = ({
   const [discount, setDiscount] = useState(0);
   const [couponError, setCouponError] = useState("");
 
-  // For month, override prices with 0
   const price =
     priceType === "month"
-      ? 0
-      : typeof yearlyPrice === "number"
-      ? yearlyPrice
-      : 0;
+      ? (typeof monthPrice === "number" ? monthPrice : 0)
+      : (typeof yearlyPrice === "number" ? yearlyPrice : 0);
+
   const mrp =
-    priceType === "month" ? 0 : typeof mrpYearly === "number" ? mrpYearly : 0;
+    priceType === "month"
+      ? (typeof mrpmonth === "number" ? mrpmonth : 0)
+      : (typeof mrpYearly === "number" ? mrpYearly : 0);
+
   const marketPrice =
     priceType === "month"
-      ? 0
-      : typeof marketYearly === "number"
-      ? marketYearly
-      : 0;
+      ? (typeof marketmonth === "number" ? marketmonth : 0)
+      : (typeof marketYearly === "number" ? marketYearly : 0);
 
-  // Calculate discounted price accordingly
   const discountedPrice = discount ? price * (1 - discount / 100) : price;
 
-  // Coupon savings to show only for yearly plans if needed
-  const savings = priceType === "month" ? 0 : 2000;
+  const savings = priceType === "month" ? 700 : 2000;
 
   const applyCoupon = () => {
     if (couponCode.trim().toUpperCase() === "NEWUSER") {

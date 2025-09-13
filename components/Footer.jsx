@@ -58,7 +58,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <TocDialog />
+                <TocDialog  />
               </li>
             </ul>
           </div>

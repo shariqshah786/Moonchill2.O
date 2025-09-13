@@ -6,7 +6,7 @@ import Footer from "components/Footer";
 import { useState } from "react";
 import Sidebar from "components/Sidebar";
 import MobileNav from "components/MobileNav";
-import Mainheader from "components/Mainheader";
+import Mainheader from "components/header/Mainheader";
 
 const About = () => {
   const [selectedGenre, setSelectedGenre] = useState("home");

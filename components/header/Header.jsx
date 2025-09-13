@@ -11,7 +11,7 @@ import {
 import { HiPlus, HiDotsVertical } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import HeaderItem from "./HeaderItem";
-import { getTrendingVideos } from "../services/GlobalAPI";
+import { getTrendingVideos } from "../../services/GlobalAPI";
 const Header = () => {
   const [toggle, setToggle] = useState(false);
 
