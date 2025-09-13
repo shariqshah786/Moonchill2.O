@@ -7,7 +7,7 @@ import Mainheader from "components/header/Mainheader";
 import Link from "next/link";
 import PlanList from "components/plans/PlanList";
 import PlanPricingBox from "components/plans/PlanPricingBox";
-
+import Image from "next/image";
 const OttLogos = () => {
   const [selectedGenre, setSelectedGenre] = useState("home");
   const [priceType, setPriceType] = useState("month");
@@ -131,7 +131,6 @@ const OttLogos = () => {
   ];
   return (
     <div className="min-h-screen bg-gray-900">
-      
       {/* Desktop Sidebar */}
       <div className="hidden md:block fixed">
         <Sidebar
@@ -164,14 +163,15 @@ const OttLogos = () => {
 
                 <div className=" flex justify-center gap-2 mb-4 flex-wrap">
                   {plan.logos.map((platform, idx) => (
-                    <img
+                    <Image
                       key={idx}
                       src={platform.logo}
-                      alt={platform.name + " Logo"}
-                      className={` object-contain rounded bg-gray-50 border hover:scale-110 transition-all duration-300
-            ease-in-out ${
-              platform.name === "main" ? "w-17 h-17" : "w-14 h-14"
-            } `}
+                      alt={`${platform.name} logo`}
+                      width={80} // instead of 14
+                      height={80} // instead of 14
+                      className={`object-contain rounded bg-gray-50 border hover:scale-110 transition-all duration-300 ease-in-out 
+    ${platform.name === "main" ? "w-20 h-20" : "w-16 h-16"}`}
+                      quality={100} // ensure high clarity
                     />
                   ))}
                 </div>
