@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://moonchill.in"), 
+  metadataBase: new URL("https://moonchill.in"),
   title: "MoonChill – Entertainment Plans & Subscriptions",
   description:
     "MoonChill brings you the best OTT subscription plans, entertainment bundles, and premium offers. Subscribe easily and chill!",
@@ -145,7 +145,7 @@ export default function RootLayout({ children }) {
           sizes="16x16"
           href="/public/logo.png"
         />
-        {/* Tawk.to Script */}
+        {/* Tawk.to Script 
         <script id="tawk-to" strategy="afterInteractive">
           {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -158,7 +158,7 @@ export default function RootLayout({ children }) {
               s0.parentNode.insertBefore(s1,s0);
             })();
           `}
-        </script>
+        </script>*/}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
