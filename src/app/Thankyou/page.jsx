@@ -5,16 +5,6 @@ import { useRouter } from "next/navigation";
 
 export default function ThankYouPage() {
   const router = useRouter();
-
-  useEffect(() => {
-    // Optional: redirect back to home after 5 seconds
-    const timer = setTimeout(() => {
-      router.push("/");
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [router]);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
       <h1 className="text-4xl font-bold mb-4">🎉 Thank You!</h1>

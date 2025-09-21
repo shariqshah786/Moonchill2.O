@@ -113,7 +113,7 @@ export default function PlanPage() {
           });
 
           // 2️⃣ Redirect to thank-you page
-          router.push("/thank-you");
+          router.push("/thankyou");
         },
         prefill: { name, contact: phone },
       };
