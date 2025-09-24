@@ -21,7 +21,7 @@ const OttLogos = () => {
     { name: "Aao", logo: "/ott_logos/aao.jpeg" },
     { name: "chaupal", logo: "/ott_logos/chaupal-logo.png" },
     { name: "discovery", logo: "/ott_logos/discovery+-logo-6000x600.jpg" },
-    { name: "fancode", logo: "/ott_logos/fancode.png" },
+    { name: "fancode", logo: "/ott_logos/fancode_logo.jpg" },
     { name: "DangalPlay", logo: "/ott_logos/DANGAL_PLAY.jpeg" },
     { name: "travelxp", logo: "/ott_logos/TRAVELXP.jpg" },
     { name: "shotstv", logo: "/ott_logos/SHORT.png" },
