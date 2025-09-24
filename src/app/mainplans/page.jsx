@@ -19,15 +19,15 @@ const OttLogos = () => {
     { name: "shemaroo", logo: "/ott_logos/Shemaroo_NEW_Logo.png" },
     { name: "AHA", logo: "/ott_logos/aha.png" },
     { name: "Aao", logo: "/ott_logos/aao.jpeg" },
-    { name: "chaupal", logo: "/ott_logos/chaupal.png" },
+    { name: "chaupal", logo: "/ott_logos/chaupal-logo.png" },
     { name: "discovery", logo: "/ott_logos/discovery+-logo-6000x600.jpg" },
     { name: "fancode", logo: "/ott_logos/fancode.png" },
     { name: "DangalPlay", logo: "/ott_logos/DANGAL_PLAY.jpeg" },
     { name: "travelxp", logo: "/ott_logos/TRAVELXP.jpg" },
     { name: "shotstv", logo: "/ott_logos/SHORT.png" },
     { name: "omtv", logo: "/ott_logos/OM TV.png" },
-    { name: "stage", logo: "/ott_logos/stage.png" },
-    { name: "distrotv", logo: "/ott_logos/distroTV.png" },
+    { name: "stage", logo: "/ott_logos/stage_logo.png" },
+    { name: "distrotv", logo: "/ott_logos/distrotv_logo.jpg" },
     { name: "hubhopper", logo: "/ott_logos/Hub_Hopper.png" },
     { name: "Itap", logo: "/ott_logos/Itap_Logo.png" },
     { name: "jiosavan", logo: "/ott_logos/JioSaavn Logo on White.png" },
@@ -38,7 +38,6 @@ const OttLogos = () => {
     { name: "rajtv", logo: "/ott_logos/rajtv-01.png" },
     { name: "chanajor", logo: "/ott_logos/channa_jor.png" },
     { name: "nammaflix", logo: "/ott_logos/NammaFlix.png" },
-    
   ];
   const plans = [
     {

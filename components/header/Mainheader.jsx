@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 const Mainheader = () => {
   return (
     <>
@@ -11,11 +12,14 @@ const Mainheader = () => {
       </div>
       <header className="flex items-center justify-between p-4 md:p-6 bg-gray-900 border-b border-gray-800">
         <div className="flex items-center gap-2 md:gap-4">
-          <Link href="/home" className="flex items-center gap-2">
-            <span className="text-lg md:text-2xl">🌙</span>
-            <h2 className="text-lg md:text-2xl font-bold text-white">
-              moonchill
-            </h2>
+          <Link href="/home">
+            <Image
+              src="/moonchill_logo.png"
+              alt="Moonchill Logo"
+              width={40}
+              height={40}
+              className="h-12 w-40 md:h-20 md:w-50 object-contain"
+            />
           </Link>
         </div>
 
