@@ -1,5 +1,6 @@
 import TocDialog from "@/components/terms-conditions";
 import Link from "next/link";
+import Image from "next/image";
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-gray-300 py-8 px-4 md:px-6 mt-12">
@@ -8,8 +9,13 @@ const Footer = () => {
           {/* Logo Section */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-2xl">🌙</span>
-              <h3 className="text-xl font-bold text-white">moonchill</h3>
+              <Image
+                src="/moonchill logo.svg"
+                alt="Moonchill Logo"
+                width={40}
+                height={40}
+                className="h-12 w-40 md:h-20 md:w-50 object-contain"
+              />
             </div>
             <p className="text-sm text-gray-400 mb-4">
               Your ultimate streaming destination for movies, series, and
@@ -58,7 +64,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <TocDialog  />
+                <TocDialog />
               </li>
             </ul>
           </div>

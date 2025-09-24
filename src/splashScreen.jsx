@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-
+import Image from "next/image";
 const SplashScreen = () => {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -18,8 +18,13 @@ const SplashScreen = () => {
       id="splash-screen"
       className="fixed z-50 w-full h-full flex justify-center items-center bg-gray-900"
     >
-      <span className="text-lg md:text-2xl">🌙</span>
-      <h2 className="text-lg md:text-2xl font-bold text-white">moonchill</h2>
+      <Image
+        src="/moonchill logo.svg"
+        alt="Moonchill Logo"
+        width={40}
+        height={40}
+        className="h-12 w-40 md:h-20 md:w-50 object-contain"
+      />
     </div>
   );
 };

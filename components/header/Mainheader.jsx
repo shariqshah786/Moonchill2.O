@@ -14,7 +14,7 @@ const Mainheader = () => {
         <div className="flex items-center gap-2 md:gap-4">
           <Link href="/home">
             <Image
-              src="/moonchill_logo.png"
+              src="/moonchill logo.svg"
               alt="Moonchill Logo"
               width={40}
               height={40}
