@@ -41,12 +41,50 @@ const OttLogos = () => {
   ];
   const plans = [
     {
+      name: "Moonchill Asia cup limited plan",
+      monthPrice: 99,
+      yearlyPrice: 599,
+      mrpmonth: 999,
+      mrpYearly: 1599,
+      marketmonth: 999,
+      marketYearly: 24030,
+      features: ["2 Device", "Full HD Streaming", "Popular Content"],
+      logos: [
+        // platforms[0],
+        // platforms[1],
+        platforms[2],
+        // platforms[3],
+        platforms[4],
+        // platforms[5],
+        // platforms[6],
+        platforms[7],
+        // platforms[8],
+        platforms[9],
+        platforms[10],
+        platforms[11],
+        platforms[12],
+        platforms[13],
+        platforms[14],
+        // platforms[15],
+        // platforms[16],
+        // platforms[17],
+        // platforms[18],
+        // platforms[19],
+        // platforms[20],
+        // platforms[21],
+        // platforms[22],
+        // platforms[23],
+        // platforms[24],
+        // platforms[25],
+      ],
+    },
+    {
       name: "Moonchill PowerPlay",
       monthPrice: 199,
-      yearlyPrice: 1990,
-      mrpmonth: 899,
+      yearlyPrice: 1299,
+      mrpmonth: 1999,
       mrpYearly: 8990,
-      marketmonth: 2403,
+      marketmonth: 1999,
       marketYearly: 24030,
       features: ["1 Device", "HD Streaming", "Limited Content"],
       logos: [
@@ -80,12 +118,11 @@ const OttLogos = () => {
     },
     {
       name: "Premium",
-      name: "Premium",
-      monthPrice: 399,
-      yearlyPrice: 3990,
-      mrpmonth: 1099,
+      monthPrice: 299,
+      yearlyPrice: 1999,
+      mrpmonth: 2999,
       mrpYearly: 10990,
-      marketmonth: 3203,
+      marketmonth: 2999,
       marketYearly: 32030,
       features: ["3 Devices", "Full HD Streaming", "Popular Content"],
       logos: [
@@ -120,10 +157,10 @@ const OttLogos = () => {
     {
       name: "Premium Pro",
       monthPrice: 599,
-      yearlyPrice: 5990,
-      mrpmonth: 1399,
+      yearlyPrice: 3999,
+      mrpmonth: 4999,
       mrpYearly: 13990,
-      marketmonth: 4203,
+      marketmonth: 4999,
       marketYearly: 42030,
       features: ["5 Devices", "4K Streaming", "All Content Access"],
       logos: platforms, // All platforms
@@ -150,8 +187,8 @@ const OttLogos = () => {
               <div
                 className={`rounded-2xl cursor-pointer shadow-lg p-7 flex flex-col items-center bg-gray-700 border-none
                 ${
-                  plan.name === "premium"
-                    ? "border-4 border-yellow-500 scale-105"
+                  plan.name === "Moonchill Asia cup limited plan"
+                    ? "border-4 border-s-black "
                     : "border border-gray-200"
                 } 
                 hover:shadow-2xl transition-all duration-300`}

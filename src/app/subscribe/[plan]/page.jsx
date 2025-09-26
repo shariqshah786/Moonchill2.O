@@ -3,9 +3,14 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 const plans = [
-  { name: "Moonchill PowerPlay", monthPrice: 199, yearlyPrice: 1990 },
-  { name: "Premium", monthPrice: 399, yearlyPrice: 3990 },
-  { name: "Premium Pro", monthPrice: 599, yearlyPrice: 5990 },
+  {
+    name: "Moonchill Asia cup limited plan",
+    monthPrice: 99,
+    yearlyPrice: 599,
+  },
+  { name: "Moonchill PowerPlay", monthPrice: 199, yearlyPrice: 1299 },
+  { name: "Premium", monthPrice: 299, yearlyPrice: 1999 },
+  { name: "Premium Pro", monthPrice: 599, yearlyPrice: 3999 },
 ];
 
 export default function PlanPage() {

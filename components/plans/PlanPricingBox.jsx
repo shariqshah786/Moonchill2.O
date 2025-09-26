@@ -19,22 +19,34 @@ const PlanPricingBox = ({
 
   const price =
     priceType === "month"
-      ? (typeof monthPrice === "number" ? monthPrice : 0)
-      : (typeof yearlyPrice === "number" ? yearlyPrice : 0);
+      ? typeof monthPrice === "number"
+        ? monthPrice
+        : 0
+      : typeof yearlyPrice === "number"
+      ? yearlyPrice
+      : 0;
 
   const mrp =
     priceType === "month"
-      ? (typeof mrpmonth === "number" ? mrpmonth : 0)
-      : (typeof mrpYearly === "number" ? mrpYearly : 0);
+      ? typeof mrpmonth === "number"
+        ? mrpmonth
+        : 0
+      : typeof mrpYearly === "number"
+      ? mrpYearly
+      : 0;
 
   const marketPrice =
     priceType === "month"
-      ? (typeof marketmonth === "number" ? marketmonth : 0)
-      : (typeof marketYearly === "number" ? marketYearly : 0);
+      ? typeof marketmonth === "number"
+        ? marketmonth
+        : 0
+      : typeof marketYearly === "number"
+      ? marketYearly
+      : 0;
 
   const discountedPrice = discount ? price * (1 - discount / 100) : price;
 
-  const savings = priceType === "month" ? 700 : 2000;
+  const savings = priceType === "month" ? 900 : 2000;
 
   const applyCoupon = () => {
     if (couponCode.trim().toUpperCase() === "NEWUSER") {
