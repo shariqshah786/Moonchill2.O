@@ -22,6 +22,22 @@ export async function POST(req) {
         discount: price - 1,
         type: "fixed",
       };
+    } else if (coupon?.toUpperCase() === "RAVAN40") {
+      const discount = (price * 40) / 100;
+      response = {
+        valid: true,
+        finalPrice: price - discount,
+        discount: 40,
+        type: "percent",
+      };
+    } else if (coupon?.toUpperCase() === "MARKWAY40") {
+      const discount = (price * 40) / 100;
+      response = {
+        valid: true,
+        finalPrice: price - discount,
+        discount: 40,
+        type: "percent",
+      };
     }
 
     return new Response(JSON.stringify(response), {
