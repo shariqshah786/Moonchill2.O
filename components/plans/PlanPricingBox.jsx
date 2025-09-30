@@ -11,11 +11,8 @@ const PlanPricingBox = ({
   marketYearly,
   features = [],
 }) => {
-  const [couponInputVisible, setCouponInputVisible] = useState(false);
   const [isCouponApplied, setIsCouponApplied] = useState(false);
-  const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
-  const [couponError, setCouponError] = useState("");
 
   const price =
     priceType === "month"
@@ -47,27 +44,6 @@ const PlanPricingBox = ({
   const discountedPrice = discount ? price * (1 - discount / 100) : price;
 
   const savings = priceType === "month" ? 900 : 2000;
-
-  const applyCoupon = () => {
-    if (couponCode.trim().toUpperCase() === "NEWUSER") {
-      setDiscount(40);
-      setCouponError("");
-      setIsCouponApplied(true);
-      setCouponInputVisible(false);
-    } else {
-      setCouponError("Invalid coupon code");
-      setDiscount(0);
-      setIsCouponApplied(false);
-    }
-  };
-
-  const resetCoupon = () => {
-    setDiscount(0);
-    setCouponCode("");
-    setCouponError("");
-    setCouponInputVisible(false);
-    setIsCouponApplied(false);
-  };
 
   return (
     <div className="relative bg-[#161848] rounded-xl p-4 sm:p-6 shadow-md mb-6 w-full max-w-xs sm:max-w-sm mx-auto flex flex-col">
@@ -104,48 +80,9 @@ const PlanPricingBox = ({
           <li key={idx}>{feature}</li>
         ))}
       </ul>
-
-      {couponInputVisible ? (
-        <div className="flex flex-col sm:flex-row w-full gap-2">
-          <input
-            type="text"
-            placeholder="Enter Coupon Code"
-            className="w-full bg-transparent border border-gray-600 rounded px-3 py-2 text-white placeholder-gray-400 focus:outline-none"
-            value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
-          />
-          <button
-            onClick={applyCoupon}
-            className="w-full sm:w-auto bg-gradient-to-r from-[#8760ff] to-[#48d2ff] px-4 py-2 rounded text-white font-semibold"
-          >
-            APPLY
-          </button>
-          <button
-            onClick={resetCoupon}
-            className="w-full sm:w-auto text-white font-bold text-lg px-2"
-            aria-label="Close coupon input"
-          >
-            ×
-          </button>
-        </div>
-      ) : !isCouponApplied ? (
-        <button
-          onClick={() => setCouponInputVisible(true)}
-          className="mt-2 w-full sm:w-auto bg-transparent border border-[#5427f0] px-4 py-2 rounded text-white font-semibold hover:bg-[#350491] transition-colors"
-        >
-          Apply coupon
-        </button>
-      ) : (
-        <button
-          type="reset"
-          onClick={resetCoupon}
-          className="mt-2 w-full sm:w-auto px-4 py-2 rounded bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold"
-        >
-          Remove Coupon
-        </button>
-      )}
-
-      {couponError && <p className="text-red-500 mt-2">{couponError}</p>}
+      <div className=" text-white text-center font-bold  ">
+        Apply coupon before the payment{" "}
+      </div>
     </div>
   );
 };

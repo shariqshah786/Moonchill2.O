@@ -1,25 +1,30 @@
-import dbConnect from "@/lib/dbConnect";
-import User from "@/models/User";
 import bcrypt from "bcryptjs";
+import clientPromise from "@/lib/mongodb";
 
 export async function POST(req) {
-  await dbConnect();
-  const { name, phone, email, password } = await req.json();
-
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
-      name,
-      phone,
-      email,
-      password: hashedPassword,
-    });
+    const { name, email, password } = await req.json();
+    const client = await clientPromise;
+    const db = client.db("moonchill");
 
-    return Response.json({ success: true, user });
-  } catch (error) {
-    return Response.json(
-      { success: false, error: error.message },
-      { status: 400 }
-    );
+    const existingUser = await db.collection("users").findOne({ email });
+    if (existingUser)
+      return new Response(JSON.stringify({ error: "User exists" }), {
+        status: 400,
+      });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await db
+      .collection("users")
+      .insertOne({ name, email, password: hashedPassword });
+
+    return new Response(JSON.stringify({ message: "Signup successful" }), {
+      status: 200,
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+    });
   }
 }

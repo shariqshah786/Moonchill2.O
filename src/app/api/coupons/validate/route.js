@@ -1,42 +1,37 @@
 export async function POST(req) {
   try {
-    const { coupon, planPrice } = await req.json();
+    const { coupon, planName, planPrice } = await req.json();
 
-    // fallback if frontend didn't send price
-    const price = planPrice ?? 100; // change 100 to your actual plan price
+    // fallback price
+    const price = planPrice ?? 100;
 
-    let response = { valid: false, finalPrice: price, discount: 0 };
+    // Coupon configuration: each coupon maps to plans + flat discount amount
+    const coupons = {
+      NEWUSER: { plans: ["Premium Pro"], discount: 100 }, // flat ₹100 off
+      RAVAN40: { plans: ["Premium"], discount: 199 }, // flat ₹199 off
+      MARKWAY40: { plans: ["Moonchill PowerPlay"], discount: 99 }, // flat ₹99 off
+      TESTUSER: { plans: ["Moonchill Asia cup limited plan"], discount: 50 }, // flat ₹50 off
+    };
 
-    if (coupon?.toUpperCase() === "NEWUSER") {
-      const discount = (price * 40) / 100;
+    let response = {
+      valid: false,
+      finalPrice: price,
+      discount: 0,
+      type: "flat",
+    };
+
+    const couponKey = coupon?.toUpperCase();
+    const couponConfig = coupons[couponKey];
+
+    if (couponConfig && couponConfig.plans.includes(planName)) {
+      const discount = couponConfig.discount;
+      const finalPrice = Math.max(price - discount, 1); // never below ₹1
+
       response = {
         valid: true,
-        finalPrice: price - discount,
-        discount: 40,
-        type: "percent",
-      };
-    } else if (coupon?.toUpperCase() === "TESTUSER") {
-      response = {
-        valid: true,
-        finalPrice: 1,
-        discount: price - 1,
-        type: "fixed",
-      };
-    } else if (coupon?.toUpperCase() === "RAVAN40") {
-      const discount = (price * 40) / 100;
-      response = {
-        valid: true,
-        finalPrice: price - discount,
-        discount: 40,
-        type: "percent",
-      };
-    } else if (coupon?.toUpperCase() === "MARKWAY40") {
-      const discount = (price * 40) / 100;
-      response = {
-        valid: true,
-        finalPrice: price - discount,
-        discount: 40,
-        type: "percent",
+        finalPrice,
+        discount,
+        type: "flat",
       };
     }
 

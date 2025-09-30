@@ -9,13 +9,15 @@ const Footer = () => {
           {/* Logo Section */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <Image
-                src="/moonchill logo.svg"
-                alt="Moonchill Logo"
-                width={40}
-                height={40}
-                className="h-12 w-40 md:h-20 md:w-50 object-contain"
-              />
+              <Link href={"/"}>
+                <Image
+                  src="/moonchill logo.svg"
+                  alt="Moonchill Logo"
+                  width={40}
+                  height={40}
+                  className="h-12 w-40 md:h-20 md:w-50 object-contain"
+                />
+              </Link>
             </div>
             <p className="text-sm text-gray-400 mb-4">
               Your ultimate streaming destination for movies, series, and
@@ -64,7 +66,9 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <TocDialog />
+                <Link href="#" className="hover:text-white transition-colors">
+                  Term & Conditions
+                </Link>
               </li>
             </ul>
           </div>

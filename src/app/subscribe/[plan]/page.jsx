@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Footer from "components/Footer";
 
 const plans = [
   {
@@ -37,17 +38,25 @@ export default function PlanPage() {
       const res = await fetch("/api/coupons/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ coupon, plan: plan.name }),
+        body: JSON.stringify({
+          coupon,
+          planName: plan.name,
+          planPrice:
+            billingCycle === "monthly" ? plan.monthPrice : plan.yearlyPrice,
+        }),
       });
       const data = await res.json();
 
       if (!data.valid) return alert("Invalid coupon");
 
-      const price =
-        billingCycle === "monthly" ? plan.monthPrice : plan.yearlyPrice;
+      setDiscountedAmount(data.finalPrice);
 
-      setDiscountedAmount(price - (price * data.discount) / 100);
-      alert(`Coupon applied! You get ${data.discount}% off.`);
+      // 🎉 Show correct message
+      if (data.type === "flat") {
+        alert(`Coupon applied! You saved ₹${data.discount}.`);
+      } else {
+        alert(`Coupon applied! You get ${data.discount}% off.`);
+      }
     } catch (err) {
       console.error("Coupon error:", err);
       alert("Something went wrong");
@@ -146,67 +155,73 @@ export default function PlanPage() {
 
   return (
     <>
-      <div className="bg-gray-800 min-h-screen flex items-center justify-center p-4">
-        <div className="p-6 max-w-lg  bg-white rounded-lg shadow-md">
-          <h1 className="text-2xl font-bold mb-2">{plan.name}</h1>
-          <p className="text-gray-600 mb-4">
-            {billingCycle === "monthly"
-              ? `₹${plan.monthPrice} / month`
-              : `₹${plan.yearlyPrice} / year`}
-          </p>
+      <div className="bg-gray-900 min-h-screen ">
+        
+        <div className="flex items-center justify-center p-4">
+          <div className="p-6 max-w-lg  bg-white rounded-lg shadow-md">
+            <h1 className="text-2xl font-bold mb-2">{plan.name}</h1>
+            <p className="text-gray-600 mb-4">
+              {billingCycle === "monthly"
+                ? `₹${plan.monthPrice} / month`
+                : `₹${plan.yearlyPrice} / year`}
+            </p>
 
-          <input
-            type="text"
-            placeholder="Name"
-            className="w-full border p-2 rounded mb-3"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Phone"
-            className="w-full border p-2 rounded mb-3"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
+            <input
+              type="text"
+              placeholder="Name"
+              className="w-full border p-2 rounded mb-3"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Phone"
+              className="w-full border p-2 rounded mb-3"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
 
-          <input
-            type="text"
-            placeholder="Coupon code"
-            className="w-full border p-2 rounded mb-3"
-            value={coupon}
-            onChange={(e) => setCoupon(e.target.value)}
-          />
-          <button
-            onClick={applyCoupon}
-            className="mb-3 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
-          >
-            Apply Coupon
-          </button>
+            <input
+              type="text"
+              placeholder="Coupon code"
+              className="w-full border p-2 rounded mb-3"
+              value={coupon}
+              onChange={(e) => setCoupon(e.target.value)}
+            />
+            <button
+              onClick={applyCoupon}
+              className="mb-3 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+            >
+              Apply Coupon
+            </button>
 
-          <select
-            className="w-full border p-2 rounded mb-3"
-            value={billingCycle}
-            onChange={(e) => setBillingCycle(e.target.value)}
-          >
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-          </select>
+            <select
+              className="w-full border p-2 rounded mb-3"
+              value={billingCycle}
+              onChange={(e) => setBillingCycle(e.target.value)}
+            >
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
 
-          <p className="mb-3 font-medium">
-            Total: ₹
-            {discountedAmount ??
-              (billingCycle === "monthly" ? plan.monthPrice : plan.yearlyPrice)}
-          </p>
+            <p className="mb-3 font-medium">
+              Total: ₹
+              {discountedAmount ??
+                (billingCycle === "monthly"
+                  ? plan.monthPrice
+                  : plan.yearlyPrice)}
+            </p>
 
-          <button
-            onClick={handleSubscribe}
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-          >
-            {loading ? "Processing..." : "Subscribe"}
-          </button>
+            <button
+              onClick={handleSubscribe}
+              disabled={loading}
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            >
+              {loading ? "Processing..." : "Subscribe"}
+            </button>
+          </div>
         </div>
+        <Footer />
       </div>
     </>
   );
