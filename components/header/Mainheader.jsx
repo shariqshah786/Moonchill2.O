@@ -1,13 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Marquee from "react-fast-marquee";
 const Mainheader = () => {
   return (
     <>
       <div className="bg-black text-white text-center py-2 px-4 text-sm rounded-lg ">
         <Link href="/mainplans">
-          <span className="text-indigo-50">Claim your voucher here</span>
-          <span className="ml-2 text-indigo-50">→</span>
+          <Marquee>
+            <span className="text-indigo-50">
+              Use code NEWUSER - Moonchill Premium @ ₹249{" "}
+            </span>
+          </Marquee>
         </Link>
       </div>
       <header className="flex items-center justify-between p-4 md:p-6 bg-gray-900 border-b border-gray-800">
@@ -23,8 +27,8 @@ const Mainheader = () => {
           </Link>
         </div>
 
-        <button className=" text-white px-6 rounded-lg font-semibold h-10 text-sm md:text-base">
-          <Link href="/mainplans" className="text-white">
+        <button className=" bg-gradient-to-r from-sky-500 to-indigo-500  rounded-lg font-semibold  md:text-base">
+          <Link href="/mainplans" className="">
             <div className="text-white font-bold items-center ">BUY NOW</div>
           </Link>
         </button>

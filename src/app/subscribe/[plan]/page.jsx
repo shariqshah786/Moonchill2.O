@@ -5,11 +5,17 @@ import Footer from "components/Footer";
 
 const plans = [
   {
-    name: "Moonchill Asia cup limited plan",
+    name: "Moonchill Starter Plan",
     monthPrice: 99,
     yearlyPrice: 599,
   },
   { name: "Moonchill PowerPlay", monthPrice: 199, yearlyPrice: 1299 },
+  { name: "Amazon Prime", monthPrice: 199, yearlyPrice: 1299 },
+  { name: "Jio Hotstar", monthPrice: 199, yearlyPrice: 1299 },
+  { name: "Sony LIV", monthPrice: 199, yearlyPrice: 1299 },
+  { name: "ZEE5", monthPrice: 199, yearlyPrice: 1299 },
+  { name: "Youtube", monthPrice: 199, yearlyPrice: 1299 },
+  { name: "Sun next", monthPrice: 199, yearlyPrice: 1299 },
   { name: "Premium", monthPrice: 299, yearlyPrice: 1999 },
   { name: "Premium Pro", monthPrice: 599, yearlyPrice: 3999 },
 ];
@@ -156,7 +162,6 @@ export default function PlanPage() {
   return (
     <>
       <div className="bg-gray-900 min-h-screen ">
-        
         <div className="flex items-center justify-center p-4">
           <div className="p-6 max-w-lg  bg-white rounded-lg shadow-md">
             <h1 className="text-2xl font-bold mb-2">{plan.name}</h1>
