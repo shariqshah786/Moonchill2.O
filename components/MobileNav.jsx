@@ -7,6 +7,7 @@ import {
   HiMagnifyingGlass,
 } from "react-icons/hi2";
 import Link from "next/link";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
 
 const MobileNav = ({ selectedGenre, setSelectedGenre }) => {
   const menuItems = [
@@ -27,32 +28,46 @@ const MobileNav = ({ selectedGenre, setSelectedGenre }) => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 z-50">
-      <div className="flex justify-around py-2">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = selectedGenre === item.id;
+    <>
+      <div className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 z-50">
+        <div className="flex justify-around py-2">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = selectedGenre === item.id;
 
-          return (
-            <Link
-              href={item.href}
-              key={item.id}
-              onClick={() => setSelectedGenre(item.id)}
-              passHref
-              className={`p-3 rounded-lg transition-colors duration-200 flex justify-center items-center ${
-                isActive
-                  ? "bg-gray-600 text-white"
-                  : "text-gray-400 hover:text-white hover:bg-gray-700"
-              }`}
-              title={item.name}
-            >
-              <Icon className="w-6 h-6 mb-1" />
-              <span className="text-xs font-medium">{item.name}</span>
-            </Link>
-          );
-        })}
+            return (
+              <Link
+                href={item.href}
+                key={item.id}
+                onClick={() => setSelectedGenre(item.id)}
+                passHref
+                className={`p-3 rounded-lg transition-colors duration-200 flex justify-center items-center ${
+                  isActive
+                    ? "bg-gray-600 text-white"
+                    : "text-gray-400 hover:text-white hover:bg-gray-700"
+                }`}
+                title={item.name}
+              >
+                <Icon className="w-6 h-6 mb-1" />
+                <span className="text-xs font-medium">{item.name}</span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
-    </div>
+      <FloatingWhatsApp
+        phoneNumber="+919870465653"
+        accountName="Support"
+        allowEsc
+        notification
+        notificationSound
+        avatar="/logo.png"
+        chatMessage="Hello! How can we help you?"
+        placeholder="Type a message..."
+        className="fixed bottom-4 right-4 z-50"
+        onClick={() => console.log("WhatsApp button clicked")}
+      />
+    </>
   );
 };
 

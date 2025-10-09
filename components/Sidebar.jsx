@@ -6,6 +6,7 @@ import {
   HiMiniSquares2X2,
 } from "react-icons/hi2";
 import Link from "next/link";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
 
 const Sidebar = ({ selectedGenre, setSelectedGenre }) => {
   const menuItems = [
@@ -26,29 +27,44 @@ const Sidebar = ({ selectedGenre, setSelectedGenre }) => {
   ];
 
   return (
-    <div className="w-16 bg-gray-900 flex flex-col items-center py-6 space-y-8">
-      {menuItems.map((item) => {
-        const Icon = item.icon;
-        const isActive = selectedGenre === item.id;
+    <>
+      <div className="w-16 bg-gray-900 flex flex-col items-center py-6 space-y-8">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = selectedGenre === item.id;
 
-        return (
-          <Link
-            href={item.href}
-            key={item.id}
-            onClick={() => setSelectedGenre(item.id)}
-            passHref
-            className={`p-3 rounded-lg transition-colors duration-200 flex justify-center items-center ${
-              isActive
-                ? "bg-blue-600 text-white"
-                : "text-gray-400 hover:text-white hover:bg-gray-700"
-            }`}
-            title={item.name}
-          >
-            <Icon className="w-6 h-6" />
-          </Link>
-        );
-      })}
-    </div>
+          return (
+            <Link
+              href={item.href}
+              key={item.id}
+              onClick={() => setSelectedGenre(item.id)}
+              passHref
+              className={`p-3 rounded-lg transition-colors duration-200 flex justify-center items-center ${
+                isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-400 hover:text-white hover:bg-gray-700"
+              }`}
+              title={item.name}
+            >
+              <Icon className="w-6 h-6" />
+            </Link>
+          );
+        })}
+        <FloatingWhatsApp
+          phoneNumber="+919870465653"
+          accountName="Support"
+          allowEsc
+          allowClickAway
+          notification
+          notificationSound
+          avatar="/logo.png"
+          chatMessage="Hello! How can we help you?"
+          placeholder="Type a message..."
+          className="fixed bottom-4 right-4 z-50"
+          onClick={() => console.log("WhatsApp button clicked")}
+        />
+      </div>
+    </>
   );
 };
 

@@ -169,12 +169,12 @@ button:focus-visible {
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 
-.scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
