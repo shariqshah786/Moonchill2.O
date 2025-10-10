@@ -9,6 +9,7 @@ import PlanList from "components/plans/PlanList";
 import PlanPricingBox from "components/plans/PlanPricingBox";
 import Image from "next/image";
 import SingleOttPlans from "components/plans/SingleOttPlans";
+import OttCards from "components/plans/OttCards";
 const OttLogos = () => {
   const [selectedGenre, setSelectedGenre] = useState("home");
   const [priceType, setPriceType] = useState("month");
@@ -182,9 +183,9 @@ const OttLogos = () => {
           <h2 className="text-2xl md:text-4xl font-bold mb-8 text-gray-300">
             Choose the Best Ott Plans for Your Entertainment
           </h2>
-          <div className="">
-            <SingleOttPlans />
-          </div>
+
+          <OttCards />
+
           <PlanList priceType={priceType} setPriceType={setPriceType} />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 max-w-7xl mx-auto">
             {plans.map((plan, index) => (

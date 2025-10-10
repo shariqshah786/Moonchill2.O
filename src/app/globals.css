@@ -167,8 +167,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -176,9 +174,14 @@ button:focus-visible {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-/* Hide scrollbar for IE, Edge and Firefox */
-
+/* Optionally customize snap behavior:
+.snap-x {
+  scroll-snap-type: x mandatory;
+}
+.snap-start {
+  scroll-snap-align: start;
+}
+*/
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

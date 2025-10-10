@@ -56,7 +56,7 @@ const MobileNav = ({ selectedGenre, setSelectedGenre }) => {
         </div>
       </div>
       <FloatingWhatsApp
-        phoneNumber="+919870465653"
+        phoneNumber="+919136653743"
         accountName="Support"
         allowEsc
         notification
