@@ -8,7 +8,7 @@ import Link from "next/link";
 import PlanList from "components/plans/PlanList";
 import PlanPricingBox from "components/plans/PlanPricingBox";
 import Image from "next/image";
-import SingleOttPlans from "components/plans/SingleOttPlans";
+
 import OttCards from "components/plans/OttCards";
 const OttLogos = () => {
   const [selectedGenre, setSelectedGenre] = useState("home");
