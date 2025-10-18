@@ -18,6 +18,7 @@ export async function POST(req) {
         discount: 50,
       }, // flat ₹199 off
       MARKWAY50: { plans: ["Premium"], discount: 50 },
+      MC40: { plans: ["Moonchill Starter Plan"], discount: 40 },
     };
 
     let response = {
