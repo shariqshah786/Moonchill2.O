@@ -7,16 +7,11 @@ export async function POST(req) {
 
     // Coupon configuration: each coupon maps to plans + flat discount amount
     const coupons = {
-      NEWUSER: { plans: ["Premium Pro", "Premium"], discount: 50 }, // flat ₹100 off
+      NEWUSER: { plans: ["Premium Pro", "Premium"], discount: 50 },
       RAVAN50: {
-        plans: [
-          "Premium",
-          "Premium Pro",
-          // "Moonchill Starter Plan",
-          "Moonchill PowerPlay",
-        ],
+        plans: ["Premium", "Premium Pro", "Moonchill PowerPlay"],
         discount: 50,
-      }, // flat ₹199 off
+      },
       MARKWAY50: { plans: ["Premium"], discount: 50 },
       MC40: { plans: ["Moonchill Starter Plan"], discount: 40 },
     };
