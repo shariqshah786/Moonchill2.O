@@ -7,3 +7,4 @@ Host: https://moonchill.in
 
 # Sitemaps
 Sitemap: https://moonchill.in/sitemap.xml
+Sitemap: https://moonchill.in/sitemap-0.xml

@@ -353,6 +353,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/public/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/public/logo.png" />
+        <link rel="canonical" href="https://moonchill.in/" />
         <link
           rel="icon"
           type="image/png"

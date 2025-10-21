@@ -20,7 +20,7 @@ const About = () => {
             setSelectedGenre={setSelectedGenre}
           />
         </div>
-        <div className="ml-12">
+        <div className="">
           <Mainheader />
         </div>
         <About3 />

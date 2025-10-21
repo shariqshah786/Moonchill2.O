@@ -7,11 +7,11 @@ module.exports = {
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: "https://moonchill.in", // 👈 your live domain
-  generateRobotsTxt: true,        // generates robots.txt
+  generateRobotsTxt: true, // generates robots.txt
   sitemapSize: 7000,
   changefreq: "weekly",
   priority: 0.7,
-  exclude: ["/api/*"],            // exclude API routes
+  exclude: ["/api/*"], // exclude API routes
   robotsTxtOptions: {
     policies: [
       {
@@ -19,8 +19,7 @@ module.exports = {
         allow: "/",
       },
     ],
-    additionalSitemaps: [
-      "https://moonchill.in/sitemap.xml",
-    ],
+    additionalSitemaps: ["https://moonchill.in/sitemap.xml"],
+    additionalSitemaps: ["https://moonchill.in/sitemap-0.xml"],
   },
 };
