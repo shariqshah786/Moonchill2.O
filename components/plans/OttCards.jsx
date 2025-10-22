@@ -72,8 +72,8 @@ const OttCards = () => {
                   </p>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <p className="text-lg font-bold mb-4 text-white text-center">
-                    ₹{ott.price}/monthy
+                  <p className="text-xl font-extrabold mb-4 text-white text-center">
+                    ₹{ott.price}/-Monthly
                   </p>
                   <Link
                     href={`/subscribe/${ott.name
