@@ -14,38 +14,38 @@ const OttCards = () => {
   const Otts = [
     {
       name: "Amazon Prime",
-      price: 199,
-      discount: 33,
+      price: 99,
+      discount: 70,
       logo: "/amazonprime.png",
     },
     {
       name: "Jio Hotstar",
-      price: 199,
-      discount: 33,
+      price: 49,
+      discount: 55,
       logo: "/ott_logos/JIOHOTSTAR_LOGO (1).jpg",
     },
     {
       name: "Sony LIV",
-      price: 199,
-      discount: 33,
+      price: 69,
+      discount: 80,
       logo: "/ott_logos/sonyliv_logo.png",
     },
     {
       name: "ZEE5",
-      price: 199,
-      discount: 33,
+      price: 69,
+      discount: 75,
       logo: "/ott_logos/zee5logo.jpeg",
     },
     {
       name: "Youtube",
-      price: 199,
-      discount: 33,
+      price: 89,
+      discount: 70,
       logo: "/youtube_logo.png",
     },
     {
       name: "Sun next",
-      price: 199,
-      discount: 33,
+      price: 89,
+      discount: 50,
       logo: "/ott_logos/sunnext logo.png",
     },
   ];
@@ -67,7 +67,7 @@ const OttCards = () => {
                     height={40}
                     className="mx-auto mb-4 object-contain rounded-3xl"
                   />
-                  <p className="text-orange-400 text-right text-sm font-bold">
+                  <p className="text-orange-400 text-center text-sm font-bold">
                     {ott.discount}% OFF
                   </p>
                 </div>

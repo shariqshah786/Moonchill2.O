@@ -20,12 +20,15 @@ const About = () => {
             setSelectedGenre={setSelectedGenre}
           />
         </div>
-        <div className="ml-12 ">
+        <div className="flex-1 overflow-y-auto">
           <Mainheader />
-        </div>
-        <About3 />
 
-        <Footer />
+          <main className="p-4 md:p-6 pb-20 md:pb-6 mt-16">
+            <h1 className="text-white text-center font-bold ">Coming Soon... </h1>
+            </main>
+
+          <Footer />
+        </div>
         <div className="md:hidden">
           <MobileNav
             selectedGenre={selectedGenre}
