@@ -66,8 +66,11 @@ const PlanPricingBox = ({
           ₹{mrp}
         </span>
         <span className="font-bold text-2xl sm:text-3xl text-white ml-2">
-          ₹{Number.isFinite(discountedPrice) ? discountedPrice.toFixed(0) : "0"}{" "}
-          {priceType === "month" ? "/Monthly" : "/Yearly"}
+          ₹{Number.isFinite(discountedPrice) ? discountedPrice.toFixed(0) : "0"}
+          /-
+          <span className="text-xl">
+            {priceType === "month" ? "Monthly" : "Yearly"}
+          </span>
         </span>
       </div>
 

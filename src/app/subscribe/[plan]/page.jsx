@@ -17,7 +17,7 @@ const plans = [
   { name: "Youtube", monthPrice: 89, yearlyPrice: 599 },
   { name: "Sun next", monthPrice: 99, yearlyPrice: 799 },
   { name: "Premium", monthPrice: 299, yearlyPrice: 1999 },
-  { name: "Premium Pro", monthPrice: 599, yearlyPrice: 3999 },
+  { name: "Premium Pro", monthPrice: 399, yearlyPrice: 2999 },
 ];
 
 export default function PlanPage() {

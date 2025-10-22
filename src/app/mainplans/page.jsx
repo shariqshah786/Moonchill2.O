@@ -88,7 +88,7 @@ const OttLogos = () => {
       mrpYearly: 8990,
       marketmonth: 1999,
       marketYearly: 24030,
-      features: ["1 Device", "HD Streaming", "Limited Content"],
+      features: ["2 Device", "HD Streaming", "Limited Content"],
       logos: [
         // platforms[0],
         platforms[1],
@@ -158,8 +158,8 @@ const OttLogos = () => {
     },
     {
       name: "Premium Pro",
-      monthPrice: 599,
-      yearlyPrice: 3999,
+      monthPrice: 399,
+      yearlyPrice: 2999,
       mrpmonth: 4999,
       mrpYearly: 13990,
       marketmonth: 4999,
