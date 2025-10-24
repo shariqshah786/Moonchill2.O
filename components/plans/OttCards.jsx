@@ -75,7 +75,7 @@ const OttCards = () => {
                   <p className="text-xl font-extrabold mb-4 text-white text-center">
                     ₹{ott.price}/-Monthly
                   </p>
-                  <Link
+                  <Link 
                     href={`/subscribe/${ott.name
                       .replace(/\s+/g, "-")
                       .toLowerCase()}`}
