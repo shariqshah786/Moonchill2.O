@@ -11,8 +11,8 @@ import { FloatingWhatsApp } from "react-floating-whatsapp";
 
 const MobileNav = ({ selectedGenre, setSelectedGenre }) => {
   const menuItems = [
-    { id: "home", name: "Home", icon: HiHome, href: "/home" },
-    { id: "search", name: "Search", icon: HiMagnifyingGlass, href: "/home" },
+    { id: "home", name: "Home", icon: HiHome, href: "/" },
+    { id: "search", name: "Search", icon: HiMagnifyingGlass, href: "/" },
     {
       id: "downloads",
       name: "Catagories",

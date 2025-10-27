@@ -33,15 +33,15 @@ const ContentSlider = ({ title, type = "movies" }) => {
       try {
         let response;
         if (type === "movies") {
-          response = await getPopularMovies;
+          response = await getPopularMovies();
         } else if (type === "tv") {
-          response = await getPopularTVShows;
+          response = await getPopularTVShows();
         } else if (type === "topMovies") {
-          response = await getTopRatedMovies;
+          response = await getTopRatedMovies();
         } else if (type === "UpcomingMovies") {
-          response = await getUpcomingMovies;
+          response = await getUpcomingMovies();
         } else {
-          response = await getPopularMovies; // Default to movies
+          response = await getPopularMovies(); // Default to movies
         }
 
         const data = response.data.results.map((item) => ({

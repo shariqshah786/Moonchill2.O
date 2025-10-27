@@ -13,7 +13,7 @@ const HeroSlider = () => {
   useEffect(() => {
     const fetchHeroData = async () => {
       try {
-        const response = await getTrendingVideos;
+        const response = await getTrendingVideos();
         const trendingData = response.data.results.slice(0, 5); // Get first 5 trending items
 
         const slides = trendingData.map((item, index) => ({

@@ -20,7 +20,7 @@ const ContentRow = ({ title }) => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await getTrendingVideos;
+        const response = await getTrendingVideos();
         setMovies(response.data.results.slice(0, 5)); // Show only 5 movies
       } catch (error) {
         console.error("Error fetching movies:", error);
