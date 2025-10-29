@@ -60,14 +60,21 @@ const Footer = () => {
                   About us
                 </Link>
               </li>
+
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
-                  Privacy Policy
+                <Link
+                  href="/terms"
+                  className="hover:text-white transition-colors"
+                >
+                  Terms & Conditions
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
-                  Term & Conditions
+                <Link
+                  href="/details"
+                  className="hover:text-white transition-colors"
+                >
+                  Know about moonchill
                 </Link>
               </li>
             </ul>
@@ -78,17 +85,26 @@ const Footer = () => {
             <h4 className="text-white font-semibold mb-4">Support</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link
+                  href="/contactus"
+                  className="hover:text-white transition-colors"
+                >
                   Help
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link
+                  href="/details"
+                  className="hover:text-white transition-colors"
+                >
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link
+                  href="/contactus"
+                  className="hover:text-white transition-colors"
+                >
                   Contact us
                 </Link>
               </li>
