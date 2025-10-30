@@ -3,14 +3,6 @@ import React from "react";
 import Mainheader from "components/header/Mainheader";
 import Footer from "components/Footer";
 
-export const metadata = {
-  title: "MoonChill Plan Details – Compare OTT Subscriptions",
-  description:
-    "Compare pricing and benefits of MoonChill OTT subscription plans. Choose the best streaming deal for Netflix, Prime Video, Hotstar, and more.",
-  robots: "index, follow",
-  alternates: { canonical: "https://moonchill.in/details" },
-};
-
 export default function DetailPage() {
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">

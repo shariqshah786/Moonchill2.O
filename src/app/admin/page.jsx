@@ -2,12 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Mainheader from "components/header/Mainheader";
 import Footer from "components/Footer";
-export const metadata = {
-  title: "MoonChill Admin Dashboard",
-  description:
-    "MoonChill Admin Dashboard for internal management of users, plans, and payments.",
-  robots: "noindex, nofollow", // ❌ Prevents Google from indexing this page
-};
 
 export default function AdminPage() {
   const [users, setUsers] = useState([]);

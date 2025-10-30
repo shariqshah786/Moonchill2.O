@@ -3,14 +3,6 @@ import React from "react";
 import Mainheader from "components/header/Mainheader";
 import Footer from "components/Footer";
 
-export const metadata = {
-  title: "About MoonChill – Affordable OTT Subscription Platform",
-  description:
-    "Learn about MoonChill’s mission to make entertainment affordable for everyone. Discover how we simplify OTT subscriptions across platforms like Netflix, Prime Video, and Disney+ Hotstar.",
-  robots: "index, follow",
-  alternates: { canonical: "https://moonchill.in/about" },
-};
-
 export default function AboutPage() {
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">
