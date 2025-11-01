@@ -2,13 +2,10 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Footer from "components/Footer";
+import Mainheader from "components/header/Mainheader";
 
 const plans = [
-  {
-    name: "Moonchill Starter Plan",
-    monthPrice: 99,
-    yearlyPrice: 599,
-  },
+  { name: "Moonchill Starter Plan", monthPrice: 99, yearlyPrice: 599 },
   { name: "Moonchill PowerPlay", monthPrice: 199, yearlyPrice: 1299 },
   { name: "Amazon Prime", monthPrice: 99, yearlyPrice: 799 },
   { name: "Jio Hotstar", monthPrice: 49, yearlyPrice: 499 },
@@ -26,9 +23,10 @@ export default function PlanPage() {
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [billingCycle, setBillingCycle] = useState("monthly");
   const [coupon, setCoupon] = useState("");
+  const [couponApplied, setCouponApplied] = useState(false);
   const [discountedAmount, setDiscountedAmount] = useState(null);
+  const [billingCycle, setBillingCycle] = useState("monthly");
   const [loading, setLoading] = useState(false);
 
   const plan = plans.find(
@@ -36,10 +34,9 @@ export default function PlanPage() {
   );
   if (!plan) return <div>❌ Plan not found</div>;
 
-  // 1️⃣ Function to validate coupon
+  // ✅ Apply Coupon
   const applyCoupon = async () => {
     if (!coupon) return alert("Enter a coupon code");
-
     try {
       const res = await fetch("/api/coupons/validate", {
         method: "POST",
@@ -56,31 +53,36 @@ export default function PlanPage() {
       if (!data.valid) return alert("Invalid coupon");
 
       setDiscountedAmount(data.finalPrice);
-
-      // 🎉 Show correct message
-      if (data.type === "flat") {
-        alert(`Coupon applied! You saved ₹${data.discount}.`);
-      } else {
-        alert(`Coupon applied! You get ${data.discount}% off.`);
-      }
+      setCouponApplied(true);
+      alert(
+        data.type === "flat"
+          ? `Coupon applied! You saved ₹${data.discount}.`
+          : `Coupon applied! You get ${data.discount}% off.`
+      );
     } catch (err) {
-      console.error("Coupon error:", err);
-      alert("Something went wrong");
+      console.error("Coupon Error:", err);
+      alert("Something went wrong applying coupon");
     }
   };
 
+  // ✅ Remove Coupon
+  const removeCoupon = () => {
+    setCoupon("");
+    setCouponApplied(false);
+    setDiscountedAmount(null);
+  };
+
+  // ✅ Handle Payment
   const handleSubscribe = async () => {
     if (!name || !phone) return alert("Enter name & phone number");
 
     setLoading(true);
-
     try {
       const price =
         billingCycle === "monthly" ? plan.monthPrice : plan.yearlyPrice;
-
       const finalAmount = discountedAmount ?? price;
 
-      // 2️⃣ Store user in MongoDB
+      // 🟢 Store user
       await fetch("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -88,29 +90,29 @@ export default function PlanPage() {
           name,
           phone,
           plan: plan.name,
-          billingCycle,
           coupon: coupon || null,
           amount: finalAmount,
+          billingCycle,
+          paymentStatus: "pending",
         }),
       });
 
-      // 3️⃣ Create Razorpay order
+      // 🟢 Create Razorpay order
       const orderRes = await fetch("/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: finalAmount * 100 }), // in paise
+        body: JSON.stringify({ amount: finalAmount * 100 }),
       });
 
       const orderData = await orderRes.json();
       if (orderData.error) {
-        alert("Failed to create payment order: " + orderData.error);
+        alert("Payment order creation failed: " + orderData.error);
         setLoading(false);
         return;
       }
 
-      // 4️⃣ Load Razorpay SDK
-      const res = await loadRazorpay();
-      if (!res) return alert("Razorpay SDK failed to load");
+      const sdkLoaded = await loadRazorpay();
+      if (!sdkLoaded) return alert("Razorpay SDK failed to load");
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
@@ -119,35 +121,43 @@ export default function PlanPage() {
         name: "Moonchill",
         description: `${plan.name} Subscription`,
         order_id: orderData.id,
-        handler: async function (response) {
-          // 1️⃣ Update DB with success
-          await fetch("/api/payment/verify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              phone,
-              plan: plan.name,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-            }),
-          });
+        handler: async (response) => {
+          try {
+            const verifyRes = await fetch("/api/payment/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                phone,
+                plan: plan.name,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                coupon,
+                amount: finalAmount,
+              }),
+            });
 
-          // 2️⃣ Redirect to thank-you page
-          router.push("/thankyou");
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) router.push("/thankyou");
+            else alert("Payment verification failed: " + verifyData.error);
+          } catch (err) {
+            console.error("Verify Error:", err);
+            alert("Something went wrong verifying payment.");
+          }
         },
         prefill: { name, contact: phone },
       };
 
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (err) {
-      console.error("Subscribe error:", err);
-      alert("Something went wrong!");
+      console.error("Subscribe Error:", err);
+      alert("Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
+  // ✅ Load Razorpay
   const loadRazorpay = () =>
     new Promise((resolve) => {
       if (document.getElementById("razorpay-script")) return resolve(true);
@@ -161,11 +171,15 @@ export default function PlanPage() {
 
   return (
     <>
-      <div className="bg-gray-900 min-h-screen ">
-        <div className="flex items-center justify-center p-4">
-          <div className="p-6 max-w-lg  bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-2">{plan.name}</h1>
-            <p className="text-gray-600 mb-4">
+      <div className="bg-gray-900">
+        <Mainheader />
+        <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center px-4 py-10 text-white">
+          <div className="max-w-lg w-full bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700">
+            <h1 className="text-2xl font-bold mb-3 text-center text-sky-400">
+              {plan.name}
+            </h1>
+
+            <p className="text-center text-gray-300 mb-5">
               {billingCycle === "monthly"
                 ? `₹${plan.monthPrice} / month`
                 : `₹${plan.yearlyPrice} / year`}
@@ -173,56 +187,79 @@ export default function PlanPage() {
 
             <input
               type="text"
-              placeholder="Name"
-              className="w-full border p-2 rounded mb-3"
+              placeholder="Enter your name"
+              className="w-full mb-3 p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-sky-500"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <input
               type="text"
-              placeholder="Phone"
-              className="w-full border p-2 rounded mb-3"
+              placeholder="Enter phone number"
+              className="w-full mb-3 p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-sky-500"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
 
-            <input
-              type="text"
-              placeholder="Coupon code"
-              className="w-full border p-2 rounded mb-3"
-              value={coupon}
-              onChange={(e) => setCoupon(e.target.value)}
-            />
-            <button
-              onClick={applyCoupon}
-              className="mb-3 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
-            >
-              Apply Coupon
-            </button>
+            <div className="flex gap-2 mb-3">
+              <input
+                type="text"
+                placeholder="Coupon code"
+                className="flex-1 p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-green-500"
+                value={coupon}
+                onChange={(e) => setCoupon(e.target.value)}
+                disabled={couponApplied}
+              />
+              {!couponApplied ? (
+                <button
+                  onClick={applyCoupon}
+                  className="bg-green-600 px-4 py-2 rounded-md hover:bg-green-700 transition"
+                >
+                  Apply
+                </button>
+              ) : (
+                <button
+                  onClick={removeCoupon}
+                  className="bg-red-600 px-4 py-2 rounded-md hover:bg-red-700 transition"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+
+            {couponApplied && (
+              <p className="text-green-400 text-sm mb-3">
+                ✅ Coupon applied successfully!
+              </p>
+            )}
 
             <select
-              className="w-full border p-2 rounded mb-3"
               value={billingCycle}
               onChange={(e) => setBillingCycle(e.target.value)}
+              className="w-full mb-3 p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-sky-500"
             >
               <option value="monthly">Monthly</option>
               <option value="yearly">Yearly</option>
             </select>
 
-            <p className="mb-3 font-medium">
-              Total: ₹
-              {discountedAmount ??
-                (billingCycle === "monthly"
-                  ? plan.monthPrice
-                  : plan.yearlyPrice)}
-            </p>
+            <div className="flex justify-between items-center mb-5">
+              <span className="text-lg font-semibold text-gray-300">
+                Total:
+              </span>
+              <span className="text-xl font-bold text-green-400">
+                ₹
+                {discountedAmount ??
+                  (billingCycle === "monthly"
+                    ? plan.monthPrice
+                    : plan.yearlyPrice)}
+              </span>
+            </div>
 
             <button
               onClick={handleSubscribe}
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+              className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-all"
             >
-              {loading ? "Processing..." : "Subscribe"}
+              {loading ? "Processing..." : "Proceed to Pay"}
             </button>
           </div>
         </div>

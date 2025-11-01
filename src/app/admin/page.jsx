@@ -7,7 +7,7 @@ export default function AdminPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch users from your MongoDB via API route
+  // Fetch users from MongoDB via API route
   const fetchUsers = async () => {
     try {
       const res = await fetch("/api/admin/users");
@@ -24,18 +24,31 @@ export default function AdminPage() {
     }
   };
 
+  // Auto refresh every 10 seconds
   useEffect(() => {
     fetchUsers();
+    const interval = setInterval(fetchUsers, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">
       <Mainheader />
 
-      <main className="flex-grow px-6 md:px-16 py-10 max-w-7xl mx-auto w-full">
+      <main className="flex-grow px-4 sm:px-8 md:px-16 py-10 max-w-7xl mx-auto w-full">
         <h1 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-sky-400 to-indigo-500 bg-clip-text text-transparent">
           Admin Dashboard — User Subscriptions
         </h1>
+
+        {/* Total Users Count */}
+        {!loading && users.length > 0 && (
+          <div className="mb-6 text-center">
+            <p className="text-lg font-semibold text-gray-300">
+              Total Users:{" "}
+              <span className="text-sky-400 font-bold">{users.length}</span>
+            </p>
+          </div>
+        )}
 
         {loading ? (
           <p className="text-gray-400 text-center">Loading user data...</p>
@@ -43,16 +56,17 @@ export default function AdminPage() {
           <p className="text-gray-400 text-center">No users found.</p>
         ) : (
           <div className="overflow-x-auto bg-gray-800/60 rounded-lg shadow-lg p-4">
-            <table className="min-w-full text-sm">
-              <thead className="bg-gray-700">
+            <table className="min-w-full text-sm border-collapse">
+              <thead className="bg-gray-700 text-gray-200">
                 <tr>
                   <th className="px-4 py-2 text-left">Name</th>
                   <th className="px-4 py-2 text-left">Phone</th>
                   <th className="px-4 py-2 text-left">Plan</th>
-                  <th className="px-4 py-2 text-left">Cycle</th>
+                  <th className="px-4 py-2 text-left">Billing Cycle</th>
                   <th className="px-4 py-2 text-left">Coupon</th>
                   <th className="px-4 py-2 text-left">Amount</th>
-                  <th className="px-4 py-2 text-left">Status</th>
+                  <th className="px-4 py-2 text-left">Payment Status</th>
+                  <th className="px-4 py-2 text-left">Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,23 +76,35 @@ export default function AdminPage() {
                     className="border-b border-gray-700 hover:bg-gray-700/50 transition"
                   >
                     <td className="px-4 py-2">{user.name || "—"}</td>
-                    <td className="px-4 py-2">{user.phone}</td>
-                    <td className="px-4 py-2">{user.plan || "—"}</td>
-                    <td className="px-4 py-2">{user.billingCycle || "—"}</td>
-                    <td className="px-4 py-2">
-                      {user.coupon ? user.coupon : "—"}
-                    </td>
+                    <td className="px-4 py-2">{user.phone || "—"}</td>
                     <td className="px-4 py-2 text-sky-400 font-semibold">
-                      ₹{user.amount}
+                      {user.subscription?.plan || "—"}
+                    </td>
+                    <td className="px-4 py-2 text-gray-300">
+                      {user.subscription?.billingCycle || "—"}
+                    </td>
+                    <td className="px-4 py-2 text-yellow-300">
+                      {user.subscription?.coupon || "—"}
+                    </td>
+                    <td className="px-4 py-2 text-green-400 font-semibold">
+                      ₹{user.subscription?.amount || "—"}
                     </td>
                     <td
-                      className={`px-4 py-2 ${
-                        user.subscription?.status === "active"
+                      className={`px-4 py-2 font-semibold ${
+                        user.subscription?.paymentStatus === "success"
                           ? "text-green-400"
-                          : "text-red-400"
+                          : user.subscription?.paymentStatus === "failed"
+                          ? "text-red-400"
+                          : "text-yellow-400"
                       }`}
                     >
-                      {user.subscription?.status || "pending"}
+                      {user.subscription?.paymentStatus || "Pending"}
+                    </td>
+                    <td className="px-4 py-2 text-gray-400 text-xs">
+                      {new Date(user.createdAt).toLocaleString("en-IN", {
+                        dateStyle: "medium",
+                        timeStyle: "short",
+                      })}
                     </td>
                   </tr>
                 ))}

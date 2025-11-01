@@ -5,7 +5,9 @@ import User from "@/models/User";
 export async function POST(req) {
   try {
     await dbConnect();
-    const { name, phone, plan } = await req.json();
+
+    const { name, phone, plan, billingCycle, coupon, amount } =
+      await req.json();
 
     if (!name || !phone) {
       return Response.json(
@@ -16,7 +18,17 @@ export async function POST(req) {
 
     const user = await User.findOneAndUpdate(
       { phone },
-      { name, phone, subscription: { plan, status: "pending" } },
+      {
+        name,
+        phone,
+        subscription: {
+          plan,
+          billingCycle,
+          coupon: coupon || null,
+          amount,
+          paymentStatus: "pending",
+        },
+      },
       { upsert: true, new: true }
     );
 
