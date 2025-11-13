@@ -3,7 +3,7 @@ import "./globals.css";
 import ReactQueryProvider from "@/utils/reactQueryProvider";
 import Modal from "components/modal/Modal";
 import SplashScreen from "@/splashScreen";
-
+import Script from "next/script";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -191,6 +191,7 @@ export default function RootLayout({ children }) {
             }),
           }}
         />
+        
       </body>
     </html>
   );
