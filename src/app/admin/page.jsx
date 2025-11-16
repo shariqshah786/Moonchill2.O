@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Mainheader from "components/header/Mainheader";
 import Footer from "components/Footer";
@@ -7,7 +8,16 @@ export default function AdminPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch users from MongoDB via API route
+  // 🔒 1) Protect the admin route
+  useEffect(() => {
+    const adminToken = localStorage.getItem("moonchillAdmin");
+
+    if (!adminToken) {
+      window.location.href = "/admin/login"; // Redirect if not logged in
+    }
+  }, []);
+
+  // 🔄 2) Fetch user subscriptions
   const fetchUsers = async () => {
     try {
       const res = await fetch("/api/admin/users");
@@ -31,16 +41,33 @@ export default function AdminPage() {
     return () => clearInterval(interval);
   }, []);
 
+  // 🔴 Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("moonchillAdmin");
+    window.location.href = "/admin/login";
+  };
+
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">
       <Mainheader />
 
       <main className="flex-grow px-4 sm:px-8 md:px-16 py-10 max-w-7xl mx-auto w-full">
-        <h1 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-sky-400 to-indigo-500 bg-clip-text text-transparent">
-          Admin Dashboard — User Subscriptions
-        </h1>
+        {/* Admin Controls */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-extrabold bg-gradient-to-r from-sky-400 to-indigo-500 bg-clip-text text-transparent">
+            Admin Dashboard — User Subscriptions
+          </h1>
 
-        {/* Total Users Count */}
+          {/* 🔴 Logout button */}
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 px-4 py-2 rounded-lg text-white hover:bg-red-700"
+          >
+            Logout
+          </button>
+        </div>
+
+        {/* Total Users */}
         {!loading && users.length > 0 && (
           <div className="mb-6 text-center">
             <p className="text-lg font-semibold text-gray-300">
@@ -50,6 +77,7 @@ export default function AdminPage() {
           </div>
         )}
 
+        {/* TABLE */}
         {loading ? (
           <p className="text-gray-400 text-center">Loading user data...</p>
         ) : users.length === 0 ? (
@@ -69,6 +97,7 @@ export default function AdminPage() {
                   <th className="px-4 py-2 text-left">Date</th>
                 </tr>
               </thead>
+
               <tbody>
                 {users.map((user) => (
                   <tr
@@ -77,18 +106,23 @@ export default function AdminPage() {
                   >
                     <td className="px-4 py-2">{user.name || "—"}</td>
                     <td className="px-4 py-2">{user.phone || "—"}</td>
+
                     <td className="px-4 py-2 text-sky-400 font-semibold">
                       {user.subscription?.plan || "—"}
                     </td>
+
                     <td className="px-4 py-2 text-gray-300">
                       {user.subscription?.billingCycle || "—"}
                     </td>
+
                     <td className="px-4 py-2 text-yellow-300">
                       {user.subscription?.coupon || "—"}
                     </td>
+
                     <td className="px-4 py-2 text-green-400 font-semibold">
                       ₹{user.subscription?.amount || "—"}
                     </td>
+
                     <td
                       className={`px-4 py-2 font-semibold ${
                         user.subscription?.paymentStatus === "success"
@@ -100,6 +134,7 @@ export default function AdminPage() {
                     >
                       {user.subscription?.paymentStatus || "Pending"}
                     </td>
+
                     <td className="px-4 py-2 text-gray-400 text-xs">
                       {new Date(user.createdAt).toLocaleString("en-IN", {
                         dateStyle: "medium",
