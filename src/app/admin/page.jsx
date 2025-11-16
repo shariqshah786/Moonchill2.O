@@ -9,13 +9,15 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
 
   // 🔒 1) Protect the admin route
-  useEffect(() => {
+ useEffect(() => {
+  if (typeof window !== "undefined") {
     const adminToken = localStorage.getItem("moonchillAdmin");
 
     if (!adminToken) {
-      window.location.href = "/admin/login"; // Redirect if not logged in
+      window.location.href = "/admin/login";
     }
-  }, []);
+  }
+}, []);
 
   // 🔄 2) Fetch user subscriptions
   const fetchUsers = async () => {
