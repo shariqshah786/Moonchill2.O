@@ -30,6 +30,7 @@ export async function POST(req) {
       },
 
       MARKWAY50: { plans: ["Premium"], discount: 50, type: "flat" },
+      MOON180: { plans: ["Premium"], discount: 179, type: "flat" },
 
       MC40: { plans: ["Moonchill Starter Plan"], discount: 40, type: "flat" },
     };
