@@ -126,7 +126,7 @@ const Sidebar = ({ selectedGenre, setSelectedGenre }) => {
           allowClickAway
           notification
           notificationSound
-          avatar="/logo.png"
+          avatar="/logo.svg"
           chatMessage="Hello! How can we help you?"
           placeholder="Type a message..."
           className="fixed bottom-4 right-4 z-50"

@@ -123,10 +123,10 @@ const MobileNav = ({ selectedGenre, setSelectedGenre }) => {
         allowEsc
         notification
         notificationSound
-        avatar="/logo.png"
+        avatar="/logo.svg"
         chatMessage="Hello! How can we help you?"
         placeholder="Type a message..."
-        className="fixed bottom-20 right-4 z-50"
+        className="fixed bottom-17 right-4 z-50"
       />
     </>
   );

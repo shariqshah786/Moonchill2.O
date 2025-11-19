@@ -101,8 +101,8 @@ export const metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    apple: "/logo.png",
-    shortcut: "/logo.png",
+    apple: "/logo.svg",
+    shortcut: "/logolight.png",
   },
   other: {
     // ✅ SEO-optimized structured data (Google Rich Snippet)
@@ -111,7 +111,7 @@ export const metadata = {
       "@type": "Organization",
       name: "MoonChill",
       url: "https://moonchill.in",
-      logo: "https://moonchill.in/logo.png",
+      logo: "https://moonchill.in/logo.svg",
       sameAs: [
         "https://facebook.com/moonchill",
         "https://instagram.com/moonchill",
@@ -136,34 +136,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/public/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/public/logo.png" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/logo.svg" />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href="/public/logo.png"
+          href="/logo.svg"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href="/public/logo.png"
+          href="/logo.svg"
         />
-        {/* Tawk.to Script */}
-        {/* <script id="tawk-to" strategy="afterInteractive">
-          {`
-            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-            (function(){
-              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-              s1.async=true;
-              s1.src='https://embed.tawk.to/68cec191c4e82919233cb79a/1j5jq891r';
-              s1.charset='UTF-8';
-              s1.setAttribute('crossorigin','*');
-              s0.parentNode.insertBefore(s1,s0);
-            })();
-          `}
-        </script> */}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -182,7 +168,7 @@ export default function RootLayout({ children }) {
               "@type": "Organization",
               name: "MoonChill",
               url: "https://moonchill.in",
-              logo: "https://moonchill.in/moonchill-logo.png",
+              logo: "https://moonchill.in/moonchill-logo.svg",
               sameAs: [
                 "https://facebook.com/moonchill",
                 "https://twitter.com/moonchill",
