@@ -100,7 +100,7 @@ export const metadata = {
     canonical: "https://moonchill.in",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/Logo.ico",
     apple: "/logo.svg",
     shortcut: "/logolight.png",
   },
@@ -136,20 +136,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/Logo.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/logo.svg" />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/logo.svg"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/logo.svg"
-        />
+        <link rel="icon" type="image/png" sizes="32x32" href="/logo.svg" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/logo.svg" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
